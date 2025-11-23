@@ -56,6 +56,10 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         .map(([, value]) => `(max-width: ${value}px) ${value * 2}w`)
         .join(', ')
 
+  // Check if we're in development and using localhost URLs
+  // const isLocalhost = typeof src === 'string' && (src.includes('localhost') || src.includes('127.0.0.1'))
+  // const isDev = process.env.NODE_ENV === 'development'
+
   return (
     <picture className={cn(pictureClassName)}>
       <NextImage

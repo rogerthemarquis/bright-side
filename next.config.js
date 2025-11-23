@@ -19,6 +19,12 @@ const nextConfig = {
         }
       }),
     ],
+    localPatterns: [
+      {
+        pathname: '/media/**',
+      },
+    ],
+    qualities: [75, 100],
   },
   webpack: (webpackConfig) => {
     webpackConfig.resolve.extensionAlias = {
