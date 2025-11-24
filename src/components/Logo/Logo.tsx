@@ -26,7 +26,7 @@ export const Logo = (props: Props) => {
         className="w-16 h-16 object-contain"
         src="/api/media/file/bs_logo.jpg"
       />
-      <span className="text-xl font-semibold">Bright Side Tattoos</span>
+      <span className="text-xl font-semibold hidden md:inline">Bright Side Tattoos</span>
     </div>
   )
 }

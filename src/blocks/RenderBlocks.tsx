@@ -8,6 +8,7 @@ import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { ContentBlock } from '@/blocks/Content/Component'
 import { FormBlock } from '@/blocks/Form/Component'
 import { GalleryBlock } from '@/blocks/Gallery/Component'
+import { MapSection } from '@/blocks/MapSection/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
 
 const blockComponents = {
@@ -17,6 +18,7 @@ const blockComponents = {
   cta: CallToActionBlock,
   formBlock: FormBlock,
   gallery: GalleryBlock,
+  mapSection: MapSection,
   mediaBlock: MediaBlock,
 }
 
