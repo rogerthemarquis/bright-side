@@ -13,54 +13,69 @@ export const HeaderNav: React.FC<{ data: HeaderType; portfolios: Portfolio[] }> 
   portfolios,
 }) => {
   const navItems = data?.navItems || []
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const dropdownRef = useRef<HTMLDivElement>(null)
+  const [openDropdownIndex, setOpenDropdownIndex] = useState<number | null>(null)
+  const dropdownRefs = useRef<(HTMLDivElement | null)[]>([])
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsDropdownOpen(false)
+      if (
+        openDropdownIndex !== null &&
+        dropdownRefs.current[openDropdownIndex] &&
+        !dropdownRefs.current[openDropdownIndex]?.contains(event.target as Node)
+      ) {
+        setOpenDropdownIndex(null)
       }
     }
 
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
+  }, [openDropdownIndex])
 
   return (
     <nav className="flex gap-3 items-center">
-      {/* Artists Dropdown */}
-      <div className="relative" ref={dropdownRef}>
-        <button
-          onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-          className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline underline-offset-4 transition-colors"
-        >
-          Artists
-          <ChevronDown
-            className={`w-4 h-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}
-          />
-        </button>
+      {navItems.map((item, i) => {
+        if (item.type === 'artistsDropdown') {
+          const isOpen = openDropdownIndex === i
 
-        {isDropdownOpen && portfolios.length > 0 && (
-          <div className="absolute left-0 mt-2 w-56 bg-card border border-border rounded-md shadow-lg z-50">
-            <div className="py-1">
-              {portfolios.map((portfolio) => (
-                <Link
-                  key={portfolio.id}
-                  href={`/portfolios/${portfolio.slug}`}
-                  className="block px-4 py-2 text-sm text-primary hover:bg-accent transition-colors"
-                  onClick={() => setIsDropdownOpen(false)}
-                >
-                  {portfolio.profile?.artistName || 'Untitled'}
-                </Link>
-              ))}
+          return (
+            <div
+              key={i}
+              className="relative"
+              ref={(el) => {
+                dropdownRefs.current[i] = el
+              }}
+            >
+              <button
+                onClick={() => setOpenDropdownIndex(isOpen ? null : i)}
+                className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline underline-offset-4 transition-colors"
+              >
+                Artists
+                <ChevronDown
+                  className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+                />
+              </button>
+
+              {isOpen && portfolios.length > 0 && (
+                <div className="absolute left-0 mt-2 w-56 bg-card border border-border rounded-md shadow-lg z-50">
+                  <div className="py-1">
+                    {portfolios.map((portfolio) => (
+                      <Link
+                        key={portfolio.id}
+                        href={`/portfolios/${portfolio.slug}`}
+                        className="block px-4 py-2 text-sm text-primary hover:bg-accent transition-colors"
+                        onClick={() => setOpenDropdownIndex(null)}
+                      >
+                        {portfolio.profile?.artistName || 'Untitled'}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
-          </div>
-        )}
-      </div>
+          )
+        }
 
-      {navItems.map(({ link }, i) => {
-        return <CMSLink key={i} {...link} appearance="link" />
+        return <CMSLink key={i} {...item.link} appearance="link" />
       })}
 
       <Link href="/search">

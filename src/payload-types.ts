@@ -1773,7 +1773,8 @@ export interface Header {
   id: number;
   navItems?:
     | {
-        link: {
+        type?: ('link' | 'artistsDropdown') | null;
+        link?: {
           type?: ('reference' | 'custom') | null;
           newTab?: boolean | null;
           reference?:
@@ -1831,6 +1832,7 @@ export interface HeaderSelect<T extends boolean = true> {
   navItems?:
     | T
     | {
+        type?: T;
         link?:
           | T
           | {

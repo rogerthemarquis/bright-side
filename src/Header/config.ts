@@ -13,8 +13,31 @@ export const Header: GlobalConfig = {
       name: 'navItems',
       type: 'array',
       fields: [
+        {
+          name: 'type',
+          type: 'radio',
+          defaultValue: 'link',
+          options: [
+            {
+              label: 'Link',
+              value: 'link',
+            },
+            {
+              label: 'Artists Dropdown',
+              value: 'artistsDropdown',
+            },
+          ],
+          admin: {
+            layout: 'horizontal',
+          },
+        },
         link({
           appearances: false,
+          overrides: {
+            admin: {
+              condition: (_, siblingData) => siblingData?.type === 'link',
+            },
+          },
         }),
       ],
       maxRows: 6,
