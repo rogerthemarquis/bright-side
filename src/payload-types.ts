@@ -69,6 +69,7 @@ export interface Config {
   collections: {
     pages: Page;
     posts: Post;
+    portfolios: Portfolio;
     media: Media;
     categories: Category;
     users: User;
@@ -91,6 +92,7 @@ export interface Config {
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
+    portfolios: PortfoliosSelect<false> | PortfoliosSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
@@ -784,6 +786,61 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "portfolios".
+ */
+export interface Portfolio {
+  id: number;
+  title: string;
+  /**
+   * Select the artist this portfolio belongs to
+   */
+  artist: number | User;
+  profile: {
+    profileImage: number | Media;
+    artistName: string;
+    /**
+     * e.g., Traditional, Realism, Japanese, etc.
+     */
+    specialty?: string | null;
+    bio: string;
+  };
+  gallery: {
+    title?: string | null;
+    /**
+     * Select images to display in the gallery
+     */
+    images: (number | Media)[];
+    columns?: ('2' | '3' | '4') | null;
+  };
+  /**
+   * Select a form for appointment requests
+   */
+  appointmentForm?: (number | null) | Form;
+  formTitle?: string | null;
+  /**
+   * Optional description above the appointment form
+   */
+  formDescription?: string | null;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  publishedAt?: string | null;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -979,6 +1036,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'posts';
         value: number | Post;
+      } | null)
+    | ({
+        relationTo: 'portfolios';
+        value: number | Portfolio;
       } | null)
     | ({
         relationTo: 'media';
@@ -1214,6 +1275,45 @@ export interface PostsSelect<T extends boolean = true> {
         id?: T;
         name?: T;
       };
+  generateSlug?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "portfolios_select".
+ */
+export interface PortfoliosSelect<T extends boolean = true> {
+  title?: T;
+  artist?: T;
+  profile?:
+    | T
+    | {
+        profileImage?: T;
+        artistName?: T;
+        specialty?: T;
+        bio?: T;
+      };
+  gallery?:
+    | T
+    | {
+        title?: T;
+        images?: T;
+        columns?: T;
+      };
+  appointmentForm?: T;
+  formTitle?: T;
+  formDescription?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+      };
+  publishedAt?: T;
   generateSlug?: T;
   slug?: T;
   updatedAt?: T;
@@ -1753,6 +1853,10 @@ export interface TaskSchedulePublish {
       | ({
           relationTo: 'posts';
           value: number | Post;
+        } | null)
+      | ({
+          relationTo: 'portfolios';
+          value: number | Portfolio;
         } | null);
     global?: string | null;
     user?: (number | null) | User;

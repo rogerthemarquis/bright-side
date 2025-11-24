@@ -35,7 +35,7 @@ export const MediaBlock: React.FC<Props> = (props) => {
   return (
     <div
       className={cn(
-        '',
+        'flex flex-col items-center',
         {
           container: enableGutter,
         },
