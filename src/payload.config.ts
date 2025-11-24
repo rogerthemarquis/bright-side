@@ -64,7 +64,7 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URI || '',
     },
-    push: false, // Disable automatic schema sync during build
+    push: false, // Disable automatic schema sync to prevent migration errors
   }),
   collections: [Pages, Posts, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
