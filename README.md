@@ -1,14 +1,55 @@
-# Payload Website Template
+# Bright Side Tattoos
 
-This is the official [Payload Website Template](https://github.com/payloadcms/payload/blob/main/templates/website). Use it to power websites, blogs, or portfolios from small to enterprise. This repo includes a fully-working backend, enterprise-grade admin panel, and a beautifully designed, production-ready website.
+A modern, full-stack web application for Bright Side Tattoos - a tattoo studio located in downtown Omaha, Nebraska. Built with Next.js 15, Payload CMS, and PostgreSQL.
 
-This template is right for you if you are working on:
+## Overview
 
-- A personal or enterprise-grade website, blog, or portfolio
-- A content publishing platform with a fully featured publication workflow
-- Exploring the capabilities of Payload
+This application serves as the digital presence for Bright Side Tattoos, providing:
 
-Core features:
+- **Artist Portfolios** - Showcase individual tattoo artists with their work, profiles, and appointment booking
+- **Content Management** - Easy-to-use admin panel for managing content, images, and site structure
+- **Blog & News** - Share studio updates, tattoo care tips, and industry news
+- **Contact & Location** - Interactive map and contact forms for client inquiries
+- **Responsive Design** - Beautiful UI that works seamlessly on desktop and mobile devices
+
+## Features
+
+### For Clients
+
+- **Browse Artist Portfolios** - View detailed profiles and gallery work from each artist
+- **Book Appointments** - Schedule consultations through integrated forms
+- **Read Blog Posts** - Stay updated with studio news and tattoo aftercare information
+- **Find the Studio** - Interactive Google Maps integration with directions
+- **Dark/Light Mode** - Comfortable viewing in any lighting condition
+
+### For Studio Staff
+
+- **Payload CMS Admin Panel** - Intuitive content management at `/admin`
+- **Portfolio Management** - Artists can manage their own profiles and gallery images
+- **Media Library** - Centralized image storage and management
+- **Draft & Publish** - Preview changes before making them live
+- **SEO Optimization** - Built-in SEO tools for better search visibility
+
+## Tech Stack
+
+### Frontend
+- **Next.js 15** - React framework with App Router
+- **TypeScript** - Type-safe code throughout
+- **Tailwind CSS** - Utility-first styling
+- **Radix UI** - Accessible component primitives
+- **Lucide Icons** - Beautiful, customizable icons
+
+### Backend
+- **Payload CMS 3** - Headless CMS with powerful admin UI
+- **PostgreSQL** - Robust relational database
+- **Drizzle ORM** - Type-safe database queries
+
+### Infrastructure
+- **Vercel** - Hosting and deployments
+- **Vercel Blob** - Media storage
+- **GitHub Actions** - CI/CD pipeline
+
+## Core Features
 
 - [Pre-configured Payload Config](#how-it-works)
 - [Authentication](#users-authentication)
@@ -25,26 +66,58 @@ Core features:
 
 ## Quick Start
 
-To spin up this example locally, follow these steps:
+### Prerequisites
 
-### Clone
+- Node.js 18+ and pnpm
+- PostgreSQL database
 
-If you have not done so already, you need to have standalone copy of this repo on your machine. If you've already cloned this repo, skip to [Development](#development).
+### Installation
 
-Use the `create-payload-app` CLI to clone this template directly to your machine:
-
+1. Clone the repository:
 ```bash
-pnpx create-payload-app my-project -t website
+git clone https://github.com/rogerthemarquis/bright-side.git
+cd bright-side
 ```
 
-### Development
+2. Install dependencies:
+```bash
+pnpm install
+```
 
-1. First [clone the repo](#clone) if you have not done so already
-1. `cd my-project && cp .env.example .env` to copy the example environment variables
-1. `pnpm install && pnpm dev` to install dependencies and start the dev server
-1. open `http://localhost:3000` to open the app in your browser
+3. Set up environment variables:
+```bash
+cp .env.example .env
+```
 
-That's it! Changes made in `./src` will be reflected in your app. Follow the on-screen instructions to login and create your first admin user. Then check out [Production](#production) once you're ready to build and serve your app, and [Deployment](#deployment) when you're ready to go live.
+Edit `.env` with your credentials:
+```env
+# Database
+DATABASE_URI=postgresql://user:password@localhost:5432/bright-side
+
+# Payload
+PAYLOAD_SECRET=your-random-secret-here
+NEXT_PUBLIC_SERVER_URL=http://localhost:3000
+
+# Vercel Blob (for media storage)
+BLOB_READ_WRITE_TOKEN=your-vercel-blob-token
+```
+
+4. Run database migrations:
+```bash
+pnpm payload migrate
+```
+
+5. Generate TypeScript types:
+```bash
+pnpm run generate:types
+```
+
+6. Start the development server:
+```bash
+pnpm dev
+```
+
+Visit `http://localhost:3000` to see the site and `http://localhost:3000/admin` for the CMS.
 
 ## How it works
 
